@@ -10,8 +10,8 @@ CUDA.allowscalar(false)         # need to run on GPU()
 grid = RectilinearGrid(
     GPU(),
     size=(64, 64, 64), halo=(3, 3, 3),
-    x = (0, 2),
-    y = (0, 2),
+    x = (0, 1),
+    y = (0, 1),
     z = (0, 2),
     topology=(Periodic, Bounded, Periodic)
 )

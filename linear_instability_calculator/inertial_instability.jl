@@ -17,7 +17,10 @@ include("src/parameters.jl")
 include("src/Compute_Eigenvalues.jl")
 include("src/Plotting_Functions.jl")
 
-output_dir = "./mixed_instability/"
+## label the output directory desired
+output_dir = "./linear_instability_calculator/outputs/inertial_instability/"
+mkpath(output_dir)
+
 files   = Files(         nc = output_dir * "data_spectrum_serial.nc",
                        json = output_dir * "data_parameters_serial.json",
                  plotgrowth = output_dir * "growth_serial.png",
@@ -26,7 +29,7 @@ files   = Files(         nc = output_dir * "data_spectrum_serial.nc",
                 plotmodes2D = output_dir * "plot_modes2D_serial"
                 )
 grid    = Grid(Ly = 1.0, Lz = 1.0, Ny = 100, θ₀ = π/32, method=Cheb())
-physics = Physics(N = 1.0, ν = 1e-6, θ₀ = grid.θ₀, NT = 1)
+physics = Physics(N = sqrt(3.0), ν = 1e-6, θ₀ = grid.θ₀, NT = 1)
 jet     = LinearShear(grid, physics)
 
 Output_Parameters(grid, physics, jet, files.json)

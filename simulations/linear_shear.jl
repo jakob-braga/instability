@@ -20,15 +20,12 @@ grid = RectilinearGrid(
 const f = 1.0 # coriolis
 const fₕ = 1.0 # nontraditional coriolis
 const M² = 0.0 # (∂u/∂z)^2
-
-## non dimentional
-const F²_nd = 0.1
-const N²_nd = 0.1
-
-const F² = F²_nd*f^2
 const α  = 2 # F²_nd*f - f # ∂u/∂y
 const N² = 3.0 #N²_nd*f^2
 const ν  = 1e-6
+
+## file info
+const output_file = "inertial_instability.nc"
 
 # Background Fields
 B(x, y, z, t) = N² .* z
@@ -65,7 +62,6 @@ simulation.callbacks[:p] = Callback(progress, IterationInterval(100))
 # Store the following info
 u, v, w = model.velocities
 ω = ∂x(v) - ∂y(u)
-#instability_cond = Field(Average(∂x(v)))
 b = model.tracers.b
 outputs = (; v, u, b, ω) #instability_cond)
 # nc attrbiutes
@@ -77,7 +73,7 @@ global_attributes = Dict(
 )
 simulation.output_writers[:fields] = NetCDFOutputWriter(
     model, outputs;
-    filename = "./data/inertial_instability.nc",
+    filename = "./data/"*output_file,
     schedule = TimeInterval(0.05),
     global_attributes=global_attributes,
     overwrite_existing = true
